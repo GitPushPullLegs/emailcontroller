@@ -2,8 +2,11 @@ README.md
 setup.py
 emailcontroller/__init__.py
 emailcontroller/emailattachment.py
+emailcontroller/emailcontents.py
+emailcontroller/emailreader.py
 emailcontroller/emailsender.py
 emailcontroller.egg-info/PKG-INFO
 emailcontroller.egg-info/SOURCES.txt
 emailcontroller.egg-info/dependency_links.txt
+emailcontroller.egg-info/requires.txt
 emailcontroller.egg-info/top_level.txt
