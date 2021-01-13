@@ -3,14 +3,14 @@ from setuptools import setup
 
 setup(
     name='emailcontroller',
-    version='0.0.1',
+    version='0.0.2',
     description='A python library to facilitate email sending and reading.',
     url='https://github.com/GitPushPullLegs/emailcontroller',
     author='Joe Aguilar',
     author_email='jose.aguilar.6694@gmail.com',
     license='GNU General Public License',
     packages=['emailcontroller'],
-    install_requires=[],
+    install_requires=['imapclient'],
     classifiers=[
         'Development Status :: 1 - Planning',
         'Intended Audience :: Science/Research',
