@@ -3,7 +3,7 @@ from .emailcontents import EmailContents
 
 
 class EmailReader:
-    def __init__(self, host: str, username: str, password: str):
+    def __init__(self, username: str, password: str, host: str = 'imap.outlook.com'):
         """Starts an IMAP client."""
         self.client = imapclient.IMAPClient(host, ssl=True)
         self.client.login(username=username,
