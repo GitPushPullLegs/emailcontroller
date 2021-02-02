@@ -1,5 +1,6 @@
 import imapclient
 from .emailcontents import EmailContents
+import re
 
 
 class EmailReader:
@@ -32,9 +33,10 @@ class EmailReader:
         for result in search_results:
             datum = self.client.fetch(result, ['BODY[]', 'FLAGS', 'ENVELOPE'])
             (_, data), = datum.items()
+            dat = str(data[b'BODY[]'])
             results.append(EmailContents(delivery_time=data[b'ENVELOPE'].date,
-                                         from_addr='',  # TODO: - Get from address.
+                                         from_addr=re.findall(r"(?<=<)[A-Za-z0-9!#$%&'*+-/=?^_`{|]+@[A-Za-z0-9-.]+(?=>\\r\\nSubject)", dat)[0],
                                          subject=data[b'ENVELOPE'].subject.decode(),
-                                         body=str(data[b'BODY[]'])))
+                                         body=dat))
 
         return results
