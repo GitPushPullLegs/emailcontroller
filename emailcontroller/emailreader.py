@@ -26,7 +26,7 @@ class EmailReader:
             criteria.append('SUBJECT')
             criteria.append(subject)
         # TODO: - Add other criteria options. Perhaps a SearchCriteria class.
-        search_results = self.client.search(criteria)
+        search_results = self.client.search('ALL' if not criteria else criteria)
 
         results = []
         for result in search_results:
