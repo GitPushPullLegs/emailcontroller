@@ -34,10 +34,9 @@ class EmailReader:
         for result in search_results:
             datum = self.client.fetch(result, ['BODY[]', 'FLAGS', 'ENVELOPE'])
             (_, data), = datum.items()
-            dat = str(data[b'BODY[]'])
-            message = pyzmail.PyzMessage.factory(data[b'BOYD[]'])
+            message = pyzmail.PyzMessage.factory(data[b'BODY[]'])
             results.append(EmailContents(delivery_time=data[b'ENVELOPE'].date,
-                                         from_addr=re.findall(r"(?<=<)[A-Za-z0-9!#$%&'*+-/=?^_`{|]+@[A-Za-z0-9-.]+(?=>\\r\\nSubject)", dat)[0],
+                                         from_addr=message.get_addresses('from')[0][1],
                                          subject=data[b'ENVELOPE'].subject.decode(),
                                          body=message.html_part.get_payload().decode(message.html_part.charset)))
 
