@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: emailcontroller
-Version: 0.0.4
+Version: 0.0.5
 Summary: A python library to facilitate email sending and reading.
 Home-page: https://github.com/GitPushPullLegs/emailcontroller
 Author: Joe Aguilar

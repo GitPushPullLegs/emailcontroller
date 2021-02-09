@@ -10,7 +10,7 @@ setup(
     author_email='jose.aguilar.6694@gmail.com',
     license='GNU General Public License',
     packages=['emailcontroller'],
-    install_requires=['imapclient', 'pyzmail36'],
+    install_requires=['imapclient'],
     classifiers=[
         'Development Status :: 1 - Planning',
         'Intended Audience :: Developers',
