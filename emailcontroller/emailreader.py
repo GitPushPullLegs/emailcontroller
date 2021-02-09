@@ -1,7 +1,6 @@
 import imapclient
 from .emailcontents import EmailContents
 import re
-import pyzmail
 import email
 from email.utils import getaddresses
 
@@ -55,9 +54,11 @@ class EmailReader:
         return results
 
     def get_addrs(self, message, field_name: str):
+        """Returns all the addresses for the given field (to, from, cc)."""
         return getaddresses([ re.sub(re.compile('\r\n|\n\r|\n|\r'), ' ', h) for h in message.get_all(field_name, [])])
 
     def _decode_payload(self, payload):
+        """Decodes the message payload using the most common utf-8."""
         if payload.get_content_type() == 'text/plain':
             return {'plain': payload.get_payload(decode=True).decode("utf-8")}
         elif payload.get_content_type() == 'text/html':
