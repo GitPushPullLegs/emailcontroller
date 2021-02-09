@@ -2,6 +2,8 @@ import imapclient
 from .emailcontents import EmailContents
 import re
 import pyzmail
+import email
+from email.utils import getaddresses
 
 
 class EmailReader:
@@ -34,10 +36,29 @@ class EmailReader:
         for result in search_results:
             datum = self.client.fetch(result, ['BODY[]', 'FLAGS', 'ENVELOPE'])
             (_, data), = datum.items()
-            message = pyzmail.PyzMessage.factory(data[b'BODY[]'])
+            message = email.message_from_bytes(data[b'BODY[]'])
+            bodies = {'plain': '', 'html': ''}
+            if message.is_multipart():
+                for payload in message.get_payload():
+                    bodies.update(self._decode_payload(payload))
+            else:
+                bodies.update(self._decode_payload(message))
+
             results.append(EmailContents(delivery_time=data[b'ENVELOPE'].date,
-                                         from_addr=message.get_addresses('from')[0][1],
+                                         from_addr=self.get_addrs(message, 'from')[0][1],
+                                         to_addr=self.get_addrs(message, 'to'),
+                                         cc_addr=self.get_addrs(message, 'cc'),
                                          subject=data[b'ENVELOPE'].subject.decode(),
-                                         body=message.html_part.get_payload().decode(message.html_part.charset)))
+                                         plain_body=bodies['plain'],
+                                         html_body=bodies['html']))
 
         return results
+
+    def get_addrs(self, message, field_name: str):
+        return getaddresses([ re.sub(re.compile('\r\n|\n\r|\n|\r'), ' ', h) for h in message.get_all(field_name, [])])
+
+    def _decode_payload(self, payload):
+        if payload.get_content_type() == 'text/plain':
+            return {'plain': payload.get_payload(decode=True).decode("utf-8")}
+        elif payload.get_content_type() == 'text/html':
+            return {'html': payload.get_payload(decode=True).decode("utf-8")}
