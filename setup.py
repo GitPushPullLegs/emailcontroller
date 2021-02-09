@@ -1,5 +1,5 @@
 from setuptools import setup
-from .emailcontroller import __version__
+from emailcontroller import __version__
 
 setup(
     name='emailcontroller',
