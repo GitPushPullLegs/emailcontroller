@@ -5,3 +5,12 @@ class EmailContents:
         self.from_addr = from_addr
         self.subject = subject
         self.body = body
+
+    def __str__(self):
+        return f"""
+Delivered: {self.delivery_time}
+From:      {self.from_addr}
+Subject:   {self.subject}
+        
+Body:
+{self.body}"""
