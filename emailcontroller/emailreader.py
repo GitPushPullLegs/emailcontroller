@@ -1,6 +1,7 @@
 import imapclient
 from .emailcontents import EmailContents
 import re
+import pyzmail
 
 
 class EmailReader:
@@ -34,9 +35,10 @@ class EmailReader:
             datum = self.client.fetch(result, ['BODY[]', 'FLAGS', 'ENVELOPE'])
             (_, data), = datum.items()
             dat = str(data[b'BODY[]'])
+            message = pyzmail.PyzMessage.factory(data[b'BOYD[]'])
             results.append(EmailContents(delivery_time=data[b'ENVELOPE'].date,
                                          from_addr=re.findall(r"(?<=<)[A-Za-z0-9!#$%&'*+-/=?^_`{|]+@[A-Za-z0-9-.]+(?=>\\r\\nSubject)", dat)[0],
                                          subject=data[b'ENVELOPE'].subject.decode(),
-                                         body=dat))
+                                         body=message.html_part.get_payload().decode(message.html_part.charset)))
 
         return results
