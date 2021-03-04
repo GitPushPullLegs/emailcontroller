@@ -1,3 +1,3 @@
 # emailcontroller
 
-A python library to facilitate email sending and reading.
+Used to facilitate interactions with an SMTP Server and IMAP Client.
