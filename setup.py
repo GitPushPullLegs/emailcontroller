@@ -1,9 +1,8 @@
 from setuptools import setup
-from emailcontroller import __version__
 
 setup(
     name='emailcontroller',
-    version=__version__,
+    version="0.0.6",
     description='A python library to facilitate email sending and reading.',
     url='https://github.com/GitPushPullLegs/emailcontroller',
     author='Joe Aguilar',
